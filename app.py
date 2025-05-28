@@ -89,19 +89,20 @@ def gender_is_not_selected_message(msg : str):
 
 
 # вкладки для визуализации отфильтрованных данных
-metric_tab, distribution_tab, hyperbola_tab = st.tabs(["📈 Показатели", "📊 Распределения", "Зависимости"])
+#metric_tab, , hyperbola_tab"📈 Показатели", "Зависимости"
+distribution_tab, = st.tabs(["📊 Распределения"])
 
 
-with metric_tab:
-    gender_is_not_selected_message("Чтобы отобразить диаграмму и график")
+#with metric_tab:
+#    gender_is_not_selected_message("Чтобы отобразить диаграмму и график")
 
-    with st.container():
-        stats_by_gender = upd_df.groupby('Gender')[['Sleep Duration', 'Quality of Sleep', 'Physical Activity Level', 'Stress Level', 'Heart Rate', 'Daily Steps']].mean().clip(upper=200)
-        st.subheader("Таблица средних значений")
-        st.dataframe(stats_by_gender.style.format("{:.2f}"))
-        st.bar_chart(stats_by_gender)
+#    with st.container():
+#       stats_by_gender = upd_df.groupby('Gender')[['Sleep Duration', 'Quality of Sleep', 'Physical Activity Level', 'Stress Level', 'Heart Rate', 'Daily Steps']].mean().clip(upper=200)
+#       st.subheader("Таблица средних значений")
+#        st.dataframe(stats_by_gender.style.format("{:.2f}"))
+#        st.bar_chart(stats_by_gender)
         
-        st.write("Средние значения по полу: продолжительность сна, качество сна, уровень физической активности, уровень стресса, пульс, шаги в день.")
+#        st.write("Средние значения по полу: продолжительность сна, качество сна, уровень физической активности, уровень стресса, пульс, шаги в день.")
 
 with distribution_tab:
     st.subheader("Распределение анализируемых показателей")
@@ -118,38 +119,38 @@ with distribution_tab:
     else:
         gender_is_not_selected_message(None)
 
-with hyperbola_tab:
-    st.subheader("Гиперболическая зависимость между двумя признаками")
+#with hyperbola_tab:
+#    st.subheader("Гиперболическая зависимость между двумя признаками")
 
 
-    numeric_columns = upd_df.select_dtypes(include=['int64', 'float64']).columns.tolist()
+#    numeric_columns = upd_df.select_dtypes(include=['int64', 'float64']).columns.tolist()
 
 
-    x_var = st.selectbox("Выберите независимую переменную (X):", numeric_columns, index=numeric_columns.index("Sleep Duration") if "Sleep Duration" in numeric_columns else 0)
-    y_var = st.selectbox("Выберите зависимую переменную (Y):", numeric_columns, index=numeric_columns.index("Age") if "Age" in numeric_columns else 1)
+#    x_var = st.selectbox("Выберите независимую переменную (X):", numeric_columns, index=numeric_columns.index("Sleep Duration") if "Sleep Duration" in numeric_columns else 0)
+#    y_var = st.selectbox("Выберите зависимую переменную (Y):", numeric_columns, index=numeric_columns.index("Age") if "Age" in numeric_columns else 1)
 
 
-    xy_df = upd_df[[x_var, y_var]].dropna()
+#    xy_df = upd_df[[x_var, y_var]].dropna()
 
 
-    X = (1 / xy_df[x_var]).values.reshape(-1, 1)
-    y = xy_df[y_var].values
+#    X = (1 / xy_df[x_var]).values.reshape(-1, 1)
+#    y = xy_df[y_var].values
 
-    model = LinearRegression()
-    model.fit(X, y)
-
-
-    x_range = np.linspace(1 / xy_df[x_var].max(), 1 / xy_df[x_var].min(), 100).reshape(-1, 1)
-    y_pred = model.predict(x_range)
+#    model = LinearRegression()
+#    model.fit(X, y)
 
 
-    fig, ax = plt.subplots()
-    sb.scatterplot(data=xy_df, x=x_var, y=y_var, ax=ax, label="Данные")
-    ax.plot(1 / x_range, y_pred, color='red', label='Гиперболическая модель')
+#    x_range = np.linspace(1 / xy_df[x_var].max(), 1 / xy_df[x_var].min(), 100).reshape(-1, 1)
+#    y_pred = model.predict(x_range)
 
-    ax.set_xlabel(x_var)
-    ax.set_ylabel(y_var)
-    ax.legend()
-    st.pyplot(fig)
 
-    st.write(f"Гиперболическая модель вида **{y_var} = a / {x_var} + b** визуализирована красной линией.")
+#    fig, ax = plt.subplots()
+#    sb.scatterplot(data=xy_df, x=x_var, y=y_var, ax=ax, label="Данные")
+#    ax.plot(1 / x_range, y_pred, color='red', label='Гиперболическая модель')
+
+#    ax.set_xlabel(x_var)
+#    ax.set_ylabel(y_var)
+#    ax.legend()
+#    st.pyplot(fig)
+
+#    st.write(f"Гиперболическая модель вида **{y_var} = a / {x_var} + b** визуализирована красной линией.")
